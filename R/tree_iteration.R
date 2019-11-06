@@ -1,19 +1,17 @@
-nr_desc <-  function(x){
-  if (!inherits(x, "phylo")){
-    stop("This function only works on trees of class phylo!")
-  }
-  x <- reorder(x, "postorder")
-  res <- numeric(max(x$edge))
-  res[1:Ntip(x)] = 1L
-  for(i in 1:nrow(x$edge)){
-    tmp = x$edge[i,1]
-    res[tmp] =  res[tmp] + res[x$edge[i,2] ]
-  }
-  res
-}
+#' Root-to-tip calculates the distance between the root and each node
+#'
+#' Root-to-tip calculates distance from root of phylogenetic tree object
+#' to each tip. Returns a vector of distances.
+#'
+#' @param x Tree of class 'phylo'
+#' @return A vector of root distances (numeric)
+#' @examples
+#' sample_tree <- ape::rtree(5)
+#' root_to_tip(sample_tree)
+#' @export
 
 root_to_tip <-  function(x){
-  x <- reorder(x)
+  x <- ape::reorder.phylo(x)
   res <- numeric(max(x$edge))
   for(i in 1:nrow(x$edge)){
     pa <- x$edge[i,1]
